@@ -5,12 +5,14 @@
 </head>
 <body>
     <h2>Products</h2>
+    <a href="{% url 'product_create' %}">Add Product</a>
     <table border="1">
         <tr>
             <th>Name</th>
             <th>Category</th>
             <th>Price</th>
             <th>Stock</th>
+            <th>Actions</th>
         </tr>
         {% for product in products %}
         <tr>
@@ -18,6 +20,10 @@
             <td>{{ product.category }}</td>
             <td>{{ product.price }}</td>
             <td>{{ product.stock_quantity }}</td>
+            <td>
+                <a href="{% url 'product_update' product.pk %}">Edit</a>
+                <a href="{% url 'product_delete' product.pk %}">Delete</a>
+            </td>
         </tr>
         {% endfor %}
     </table>
