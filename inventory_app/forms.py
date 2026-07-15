@@ -1,5 +1,6 @@
 from django import forms
-from .models import Product,Customer
+from .models import Product,Customer,Order,OrderItem
+from django.forms import inlineformset_factory
 
 
 class ProductForm(forms.ModelForm):
@@ -12,3 +13,15 @@ class CustomerForm(forms.ModelForm):
         model = Customer
         fields = ['name','email','phone']
         
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['customer','status']
+
+OrderItemFormSet = inlineformset_factory(
+    Order,
+    OrderItem,
+    fields=['product','quantity','price_at_purchase'],
+    extra=3,
+    can_delete=True
+)

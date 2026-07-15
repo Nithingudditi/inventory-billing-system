@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orders</title>
+</head>
+<body>
+    <h2>Orders</h2>
+    <a href="{% url 'order_create' %}">New Order</a>
+
+    {% for order in orders %}
+    <div style="border:1px solid black; margin:10px; padding:10px;">
+        <h3>Order #{{ order.id }} - {{ order.customer.name }} ({{ order.status }})</h3>
+        <table border="1">
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            {% for item in order.items.all %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.price_at_purchase }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endfor %}
+</body>
+</html>

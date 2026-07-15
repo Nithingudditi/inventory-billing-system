@@ -1,6 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Product,Customer
-from .forms import ProductForm,CustomerForm
+from .models import Product,Customer,Order,OrderItem
+from .forms import ProductForm,CustomerForm,OrderForm,OrderItemFormSet
+
+
+
+# ---------- PRODUCT VIEWS ----------
 
 def product_list(request):
     products = Product.objects.all()
@@ -33,6 +37,10 @@ def product_delete(request, pk):
         product.delete()
         return redirect('product_list')
     return render(request, 'inventory_app/product_confirm_delete.html', {'product': product})
+
+
+
+# ---------- CUSTOMER VIEWS ----------
 
 def customer_list(request):
     customers = Customer.objects.all()
@@ -68,3 +76,36 @@ def customer_delete(request, pk):
         customer.delete()
         return redirect('customer_list')
     return render(request, 'inventory_app/customer_confirm_delete.html', {'customer': customer})
+
+
+# ---------- ORDER VIEWS ----------
+
+
+def order_create(request):
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.save()
+            formset = OrderItemFormSet(request.POST, instance=order)
+            if formset.is_valid():
+                items = formset.save()
+                for item in items:
+                    item.product.stock_quantity -= item.quantity
+                    item.product.save()
+                return redirect('order_list')
+            else:
+                order.delete()
+        else:
+            formset = OrderItemFormSet(request.POST)
+    else:
+        form = OrderForm()
+        formset = OrderItemFormSet()
+
+    return render(request, 'inventory_app/order_form.html', {'form': form, 'formset': formset})
+
+
+
+def order_list(request):
+    orders = Order.objects.all()
+    return render(request, 'inventory_app/order_list.html', {'orders': orders})
