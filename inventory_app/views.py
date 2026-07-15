@@ -109,3 +109,12 @@ def order_create(request):
 def order_list(request):
     orders = Order.objects.all()
     return render(request, 'inventory_app/order_list.html', {'orders': orders})
+
+
+def home(request):
+    context = {
+        'product_count': Product.objects.count(),
+        'customer_count': Customer.objects.count(),
+        'order_count': Order.objects.count(),
+    }
+    return render(request, 'inventory_app/home.html', context)
