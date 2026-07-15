@@ -1,20 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Inventory System</title>
-</head>
-<body>
-    <h1>Inventory & Billing System</h1>
-
-    <p>Total Products: {{ product_count }}</p>
-    <p>Total Customers: {{ customer_count }}</p>
-    <p>Total Orders: {{ order_count }}</p>
-
-    <ul>
-        <li><a href="{% url 'product_list' %}">View Products</a></li>
-        <li><a href="{% url 'customer_list' %}">View Customers</a></li>
-        <li><a href="{% url 'order_list' %}">View Orders</a></li>
-        <li><a href="{% url 'order_create' %}">Create New Order</a></li>
-    </ul>
-</body>
-</html>
+{% extends 'inventory_app/base.html' %}
+{% block content %}
+<h1>Inventory & Billing System</h1>
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Products</h5>
+            <h2>{{ product_count }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Customers</h5>
+            <h2>{{ customer_count }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Orders</h5>
+            <h2>{{ order_count }}</h2>
+        </div>
+    </div>
+</div>
+{% endblock %}

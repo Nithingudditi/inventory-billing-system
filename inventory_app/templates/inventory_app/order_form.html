@@ -1,34 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Order</title>
-</head>
-<body>
-    <h2>Create Order</h2>
-    <form method="post">
-        {% csrf_token %}
+{% extends 'inventory_app/base.html' %}
+{% block content %}
+<h2>Create Order</h2>
+<form method="post">
+    {% csrf_token %}
 
-        <h3>Customer</h3>
-        {{ form.as_p }}
+    <h4>Customer</h4>
+    {{ form.as_p }}
 
-        <h3>Products</h3>
-        {{ formset.management_form }}
-        <table border="1">
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price at Purchase</th>
-            </tr>
-            {% for item_form in formset %}
-            <tr>
-                <td>{{ item_form.product }}</td>
-                <td>{{ item_form.quantity }}</td>
-                <td>{{ item_form.price_at_purchase }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+    <h4>Products</h4>
+    {{ formset.management_form }}
+    <table class="table">
+        <tr><th>Product</th><th>Quantity</th><th>Price at Purchase</th></tr>
+        {% for item_form in formset %}
+        <tr>
+            <td>{{ item_form.product }}</td>
+            <td>{{ item_form.quantity }}</td>
+            <td>{{ item_form.price_at_purchase }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 
-        <button type="submit">Create Order</button>
-    </form>
-</body>
-</html>
+    <button type="submit" class="btn btn-primary">Create Order</button>
+</form>
+{% endblock %}

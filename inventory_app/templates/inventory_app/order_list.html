@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Orders</title>
-</head>
-<body>
-    <h2>Orders</h2>
-    <a href="{% url 'order_create' %}">New Order</a>
+{% extends 'inventory_app/base.html' %}
+{% block content %}
+<h2>Orders</h2>
+<a href="{% url 'order_create' %}" class="btn btn-primary mb-3">New Order</a>
 
-    {% for order in orders %}
-    <div style="border:1px solid black; margin:10px; padding:10px;">
-        <h3>Order #{{ order.id }} - {{ order.customer.name }} ({{ order.status }})</h3>
-        <table border="1">
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-            </tr>
+{% for order in orders %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>Order #{{ order.id }} — {{ order.customer.name }} <span class="badge bg-secondary">{{ order.status }}</span></h5>
+        <table class="table table-sm">
+            <tr><th>Product</th><th>Quantity</th><th>Price</th></tr>
             {% for item in order.items.all %}
             <tr>
                 <td>{{ item.product.name }}</td>
@@ -25,6 +18,6 @@
             {% endfor %}
         </table>
     </div>
-    {% endfor %}
-</body>
-</html>
+</div>
+{% endfor %}
+{% endblock %}
